@@ -39,12 +39,16 @@ export default function TapCounter() {
         localStorage.setItem("portfolio-liked", "true");
 
         const docRef = doc(db, "counters", "portfolio-taps");
-        await updateDoc(docRef, {
-            count: increment(1)
-        });
+        try {
+            await updateDoc(docRef, {
+                count: increment(1)
+            });
+        } catch (e) {
+            console.error("Error updating count:", e);
+            // Fallback if document doesn't exist
+            await setDoc(docRef, { count: 1 });
+        }
     };
-
-    if (count === null) return null; // Loading state
 
     return (
         <div className="fixed bottom-6 right-6 z-50">
@@ -77,7 +81,7 @@ export default function TapCounter() {
                 </div>
 
                 <div className="absolute -top-3 -right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full min-w-[24px] text-center border border-red-400">
-                    {count}
+                    {count ?? "-"}
                 </div>
             </motion.button>
         </div>
