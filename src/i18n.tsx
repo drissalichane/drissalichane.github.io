@@ -11,7 +11,7 @@ const ui = {
     fr: {
         nav: { experience: "Expérience", projects: "Projets", skills: "Compétences", education: "Formation", guestbook: "Message", contact: "Contact" },
         a11y: { openMenu: "Ouvrir le menu", closeMenu: "Fermer le menu", toLight: "Passer en mode clair", toDark: "Passer en mode sombre", language: "Langue" },
-        hero: { cta: "Voir mon parcours", contact: "Me contacter", scroll: "Défiler", role: "Rôle", status: "Statut", statusValue: "Disponible immédiatement", base: "Base", stack: "Stack", buildResult: "0 erreur(s), 0 avertissement(s)" },
+        hero: { cta: "Voir mon parcours", contact: "Me contacter", scroll: "Défiler", role: "Rôle", status: "Statut", statusValue: "Disponible immédiatement", base: "Base", stack: "Stack", whoami: "alichane-driss · full-stack & ia" },
         experience: { label: "Carrière", title: "Expériences professionnelles" },
         projects: { label: "Réalisations", title: "Projets", stack: "Stack", source: "Code source", others: "Autres projets" },
         skills: {
@@ -31,7 +31,7 @@ const ui = {
     en: {
         nav: { experience: "Experience", projects: "Projects", skills: "Skills", education: "Education", guestbook: "Message", contact: "Contact" },
         a11y: { openMenu: "Open menu", closeMenu: "Close menu", toLight: "Switch to light mode", toDark: "Switch to dark mode", language: "Language" },
-        hero: { cta: "See my experience", contact: "Get in touch", scroll: "Scroll", role: "Role", status: "Status", statusValue: "Available immediately", base: "Based in", stack: "Stack", buildResult: "0 error(s), 0 warning(s)" },
+        hero: { cta: "See my experience", contact: "Get in touch", scroll: "Scroll", role: "Role", status: "Status", statusValue: "Available immediately", base: "Based in", stack: "Stack", whoami: "alichane-driss · full-stack & ai" },
         experience: { label: "Career", title: "Professional experience" },
         projects: { label: "Work", title: "Projects", stack: "Stack", source: "Source code", others: "Other projects" },
         skills: {

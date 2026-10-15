@@ -5,6 +5,7 @@ import { ArrowRight, Github, Linkedin } from "lucide-react";
 import Corners from "@/components/Corners";
 import { useLang } from "@/i18n";
 import { LanguageToggle } from "@/components/Toggles";
+import HeroTerminal from "@/components/HeroTerminal";
 
 export default function Hero() {
     const { data, t } = useLang();
@@ -100,16 +101,7 @@ export default function Hero() {
                         ))}
                     </dl>
 
-                    <div className="border-t border-line bg-background/60 px-5 py-4 font-mono text-xs leading-6">
-                        <p className="text-muted">
-                            <span className="text-accent">$</span> dotnet build
-                        </p>
-                        <p className="pl-4 text-muted">{t.hero.buildResult}</p>
-                        <p className="pl-4 text-accent">
-                            BUILD_SUCCESS
-                            <span className="ml-1 inline-block h-3.5 w-2 translate-y-0.5 animate-pulse bg-accent" />
-                        </p>
-                    </div>
+                    <HeroTerminal />
                 </motion.aside>
             </div>
 
