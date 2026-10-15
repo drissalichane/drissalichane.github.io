@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { ArrowRight, Check, Lock } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import { useLang } from "@/i18n";
 
@@ -132,28 +132,18 @@ export default function Guestbook() {
                             {!loading && <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />}
                         </button>
                         {sendError && <p className="font-mono text-xs text-accent">{t.guestbook.sendError}</p>}
-                    </form>
-
-                    <div className="border-t border-line pt-8 lg:col-span-5">
-                        {sent ? (
-                            <div className="flex gap-4">
+                        {sent && (
+                            <div className="flex gap-4 pt-2">
                                 <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-primary text-accent">
                                     <Check size={16} />
                                 </span>
                                 <div>
                                     <p className="font-medium text-ink">{t.guestbook.sentTitle}</p>
-                                    <p className="mt-2 text-sm leading-relaxed text-muted">{t.guestbook.sentText}</p>
+                                    <p className="mt-1 text-sm leading-relaxed text-muted">{t.guestbook.sentText}</p>
                                 </div>
                             </div>
-                        ) : (
-                            <div className="flex gap-4">
-                                <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-line text-muted">
-                                    <Lock size={16} />
-                                </span>
-                                <p className="text-sm leading-relaxed text-muted">{t.guestbook.privateNote}</p>
-                            </div>
                         )}
-                    </div>
+                    </form>
                 </div>
             </div>
         </section>
