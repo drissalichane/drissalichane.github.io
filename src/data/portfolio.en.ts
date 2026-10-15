@@ -4,15 +4,15 @@ import type { portfolioData } from "./portfolio";
 export const portfolioDataEn: typeof portfolioData = {
   personal: {
     name: "Alichane Driss",
-    title: "Full-Stack Software Engineer",
+    title: "Full-Stack & AI Software Engineer",
     status: "EMSI engineering graduate, 2026",
-    stack: ["C#", "ASP.NET Core", "Angular", "React", "SQL Server"],
+    stack: ["Java", "C#", "Python", "React", "LLMs"],
     email: "drissalichane98@gmail.com",
     phone: "+212 628-453375",
     location: "Casablanca | Open to relocation in Morocco",
     linkedin: "https://linkedin.com/in/driss-alichane",
     github: "https://github.com/drissalichane",
-    bio: "I build web applications end to end: Angular and React front-ends, ASP.NET Core and Spring Boot APIs, SQL databases. At Akkodis, I built an AI agent platform that automates the migration of legacy .NET applications, from repository analysis to pull request.",
+    bio: "I build web applications end to end and bring AI into them: React and Angular front-ends, Spring Boot, ASP.NET Core and Laravel APIs, LLM agents and machine learning models. At Akkodis, I built an AI agent platform that automates the migration of legacy .NET applications, from repository analysis to pull request.",
   },
   education: [
     {
@@ -177,8 +177,8 @@ export const portfolioDataEn: typeof portfolioData = {
     },
   ],
   skills: {
-    languages: ["C#", "TypeScript", "JavaScript", "Java", "Python", "SQL", "Dart"],
-    frameworks: ["ASP.NET Core", "Entity Framework Core", "WPF", "Angular", "React", "Next.js", "Spring Boot", "FastAPI", "Android", "Laravel"],
+    languages: ["Java", "C#", "Python", "TypeScript", "JavaScript", "PHP", "SQL", "Dart"],
+    frameworks: ["Spring Boot", "ASP.NET Core", "Laravel", "FastAPI", "React", "Angular", "Next.js", "Entity Framework Core", "WPF", "Android"],
     ai_data: ["LLMs", "RAG", "LangChain", "n8n", "PyTorch", "XGBoost", "scikit-learn", "LSTM", "ChromaDB"],
     devops: ["Docker", "Kubernetes", "Kafka", "Git / GitHub", "CI/CD (GitHub Actions)", "MLflow", "Agile practices"],
     databases: ["SQL Server", "Oracle Database", "MySQL", "PostgreSQL", "SQLite"],

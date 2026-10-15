@@ -1,15 +1,15 @@
 export const portfolioData = {
   personal: {
     name: "Alichane Driss",
-    title: "Ingénieur Logiciel Full-Stack",
+    title: "Ingénieur Logiciel Full-Stack & IA",
     status: "Ingénieur diplômé EMSI 2026",
-    stack: ["C#", "ASP.NET Core", "Angular", "React", "SQL Server"],
+    stack: ["Java", "C#", "Python", "React", "LLMs"],
     email: "drissalichane98@gmail.com",
     phone: "+212 628-453375",
     location: "Casablanca | Mobilité : Nationale",
     linkedin: "https://linkedin.com/in/driss-alichane",
     github: "https://github.com/drissalichane",
-    bio: "Je conçois des applications web de bout en bout : interfaces Angular et React, API ASP.NET Core et Spring Boot, bases de données SQL. Chez Akkodis, j’ai développé une plateforme d’agents IA qui automatise la migration d’applications .NET legacy, de l’analyse du dépôt jusqu’à la pull request.",
+    bio: "Je conçois des applications web de bout en bout et j’y intègre l’IA : interfaces React et Angular, API Spring Boot, ASP.NET Core et Laravel, agents LLM et modèles de machine learning. Chez Akkodis, j’ai développé une plateforme d’agents IA qui automatise la migration d’applications .NET legacy, de l’analyse du dépôt jusqu’à la pull request.",
   },
   education: [
     {
@@ -175,8 +175,8 @@ export const portfolioData = {
     },
   ],
   skills: {
-    languages: ["C#", "TypeScript", "JavaScript", "Java", "Python", "SQL", "Dart"],
-    frameworks: ["ASP.NET Core", "Entity Framework Core", "WPF", "Angular", "React", "Next.js", "Spring Boot", "FastAPI", "Android", "Laravel"],
+    languages: ["Java", "C#", "Python", "TypeScript", "JavaScript", "PHP", "SQL", "Dart"],
+    frameworks: ["Spring Boot", "ASP.NET Core", "Laravel", "FastAPI", "React", "Angular", "Next.js", "Entity Framework Core", "WPF", "Android"],
     ai_data: ["LLMs", "RAG", "LangChain", "n8n", "PyTorch", "XGBoost", "scikit-learn", "LSTM", "ChromaDB"],
     devops: ["Docker", "Kubernetes", "Kafka", "Git / GitHub", "CI/CD (GitHub Actions)", "MLflow", "pratiques Agile"],
     databases: ["SQL Server", "Oracle Database", "MySQL", "PostgreSQL", "SQLite"],
