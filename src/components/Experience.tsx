@@ -1,17 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { portfolioData } from "@/data/portfolio";
 import { cn } from "@/lib/utils";
 import SectionHeading from "@/components/SectionHeading";
+import { useLang } from "@/i18n";
 
 export default function Experience() {
-    const { experience } = portfolioData;
+    const { data, t } = useLang();
+    const { experience } = data;
 
     return (
         <section id="experience" className="relative border-t border-line py-28">
             <div className="container mx-auto px-6">
-                <SectionHeading index="01" label="Carrière" title="Expériences professionnelles" />
+                <SectionHeading index="01" label={t.experience.label} title={t.experience.title} />
 
                 <div>
                     {experience.map((exp, index) => (

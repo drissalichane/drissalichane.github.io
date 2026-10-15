@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { portfolioData } from "@/data/portfolio";
 import { Code2, Database, Layout, Server, Brain, Settings } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
+import { useLang } from "@/i18n";
 
 const icons = {
     languages: Code2,
@@ -14,23 +14,16 @@ const icons = {
     conception: Server,
 };
 
-const labels = {
-    languages: "Langages",
-    frameworks: "Frameworks",
-    databases: "Bases de données",
-    devops: "DevOps & outils",
-    conception: "Conception",
-    ai_data: "IA & Data",
-};
-
 export default function Skills() {
-    const { skills } = portfolioData;
+    const { data, t } = useLang();
+    const { skills } = data;
+    const labels = t.skills.categories;
     const skillCategories = Object.keys(labels) as Array<keyof typeof labels>;
 
     return (
         <section id="skills" className="relative border-t border-line py-28">
             <div className="container mx-auto px-6">
-                <SectionHeading index="03" label="Expertise" title="Compétences techniques" />
+                <SectionHeading index="03" label={t.skills.label} title={t.skills.title} />
 
                 <div className="grid border-l border-t border-line md:grid-cols-2 lg:grid-cols-3">
                     {skillCategories.map((category, index) => {
@@ -65,12 +58,12 @@ export default function Skills() {
 
                 <div className="mt-10 grid gap-6 font-mono text-xs uppercase tracking-[0.15em] text-muted md:grid-cols-2">
                     <p>
-                        <span className="text-accent">Savoir-être</span>
+                        <span className="text-accent">{t.skills.soft}</span>
                         <span className="mx-3 text-line">/</span>
                         <span className="normal-case tracking-normal text-ink/85">{skills.soft.join(", ")}</span>
                     </p>
                     <p>
-                        <span className="text-accent">Langues</span>
+                        <span className="text-accent">{t.skills.spoken}</span>
                         <span className="mx-3 text-line">/</span>
                         <span className="normal-case tracking-normal text-ink/85">{skills.languages_spoken.join(", ")}</span>
                     </p>

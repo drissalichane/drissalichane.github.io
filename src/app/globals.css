@@ -14,6 +14,23 @@
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
 
+/* Light palette: same tokens, so every utility (bg-surface, text-muted, border-line...) follows.
+   data-theme is set before paint by the script in layout.tsx. */
+:root {
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-background: #f4f7fc;
+  --color-surface: #ffffff;
+  --color-line: #d6deec;
+  --color-ink: #0b1325;
+  --color-muted: #56627b;
+  --color-primary: #1d5fd6;
+  --color-accent: #2563eb;
+}
+
 /* Blueprint grid used behind the hero and the contact section. */
 @utility blueprint {
   background-image:

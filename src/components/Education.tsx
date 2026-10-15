@@ -1,16 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { portfolioData } from "@/data/portfolio";
 import SectionHeading from "@/components/SectionHeading";
+import { useLang } from "@/i18n";
 
 export default function Education() {
-    const { education, certifications } = portfolioData;
+    const { data, t } = useLang();
+    const { education, certifications } = data;
 
     return (
         <section id="education" className="relative border-t border-line bg-surface/40 py-28">
             <div className="container mx-auto px-6">
-                <SectionHeading index="04" label="Parcours" title="Formation" />
+                <SectionHeading index="04" label={t.education.label} title={t.education.title} />
 
                 <div className="border-t border-line">
                     {education.map((edu) => (
@@ -30,7 +31,7 @@ export default function Education() {
                 </div>
 
                 <div className="mt-12">
-                    <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Certifications</p>
+                    <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">{t.education.certifications}</p>
                     <div className="flex flex-wrap gap-2">
                         {certifications.map((cert) => (
                             <span key={cert} className="border border-line px-3 py-1.5 text-sm text-ink/85">

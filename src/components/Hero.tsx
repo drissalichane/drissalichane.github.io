@@ -1,19 +1,21 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { portfolioData } from "@/data/portfolio";
 import { ArrowRight, Github, Linkedin } from "lucide-react";
 import Corners from "@/components/Corners";
+import { useLang } from "@/i18n";
+import { LanguageToggle } from "@/components/Toggles";
 
 export default function Hero() {
-    const { personal } = portfolioData;
+    const { data, t } = useLang();
+    const { personal } = data;
     const [lastName, firstName] = personal.name.split(" ");
 
     const spec = [
-        { key: "Rôle", value: personal.title },
-        { key: "Statut", value: "Disponible immédiatement" },
-        { key: "Base", value: personal.location },
-        { key: "Stack", value: personal.stack.join(" / ") },
+        { key: t.hero.role, value: personal.title },
+        { key: t.hero.status, value: t.hero.statusValue },
+        { key: t.hero.base, value: personal.location },
+        { key: t.hero.stack, value: personal.stack.join(" / ") },
     ];
 
     return (
@@ -46,14 +48,14 @@ export default function Hero() {
                             href="#experience"
                             className="group inline-flex items-center gap-2 bg-primary px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent hover:text-background"
                         >
-                            Voir mon parcours
+                            {t.hero.cta}
                             <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                         </a>
                         <a
                             href="#contact"
                             className="inline-flex items-center border border-line px-6 py-3 text-sm font-medium text-ink transition-colors hover:border-primary hover:text-accent"
                         >
-                            Me contacter
+                            {t.hero.contact}
                         </a>
                         <span className="mx-1 hidden h-6 w-px bg-line sm:block" />
                         <a
@@ -86,7 +88,7 @@ export default function Hero() {
                     <Corners />
                     <div className="flex items-center justify-between border-b border-line px-5 py-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
                         <span>profil.spec</span>
-                        <span className="text-accent">FR / EN</span>
+                        <LanguageToggle className="text-[11px] tracking-[0.2em]" />
                     </div>
 
                     <dl className="divide-y divide-line">
@@ -102,7 +104,7 @@ export default function Hero() {
                         <p className="text-muted">
                             <span className="text-accent">$</span> dotnet build
                         </p>
-                        <p className="pl-4 text-muted">0 erreur(s), 0 avertissement(s)</p>
+                        <p className="pl-4 text-muted">{t.hero.buildResult}</p>
                         <p className="pl-4 text-accent">
                             BUILD_SUCCESS
                             <span className="ml-1 inline-block h-3.5 w-2 translate-y-0.5 animate-pulse bg-accent" />
@@ -115,7 +117,7 @@ export default function Hero() {
                 href="#experience"
                 className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 font-mono text-[10px] uppercase tracking-[0.3em] text-muted transition-colors hover:text-accent lg:flex"
             >
-                Défiler
+                {t.hero.scroll}
                 <span className="h-10 w-px bg-gradient-to-b from-accent to-transparent" />
             </a>
         </section>

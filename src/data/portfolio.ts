@@ -50,7 +50,7 @@ export const portfolioData = {
       location: "Agadir",
       role: "Stage Développeur Web Full-Stack",
       period: "Juillet 2025 - Septembre 2025",
-      description: "Développement d’une solution informatique orientée automatisation intelligente des flux, fiabilité des données et optimisation opérationnelle.",
+      description: "Plateforme e-commerce pharmaceutique en Laravel, avec automatisation intelligente des flux de données.",
       tasks: [
         "Développement des modules de gestion (produits, commandes, partenaires) basés sur données.",
         "Implémentation d’un assistant IA et d’un système OCR pour l’automatisation de la saisie et du traitement.",

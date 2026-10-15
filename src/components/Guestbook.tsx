@@ -6,6 +6,7 @@ import { db } from "@/lib/firebase";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
+import { useLang } from "@/i18n";
 
 type Comment = {
     id: string;
@@ -15,13 +16,14 @@ type Comment = {
 };
 
 export default function Guestbook() {
+    const { t } = useLang();
     const [comments, setComments] = useState<Comment[]>([]);
     const [name, setName] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     // Set when Firestore refuses the read (e.g. security rules); the section then says so instead of staying empty.
     const [unavailable, setUnavailable] = useState(false);
-    const [sendError, setSendError] = useState("");
+    const [sendError, setSendError] = useState(false);
 
     useEffect(() => {
         const q = query(collection(db, "guestbook"), orderBy("createdAt", "desc"));
@@ -49,7 +51,7 @@ export default function Guestbook() {
         if (!name.trim() || !message.trim()) return;
 
         setLoading(true);
-        setSendError("");
+        setSendError(false);
         try {
             await addDoc(collection(db, "guestbook"), {
                 name: name.trim(),
@@ -60,7 +62,7 @@ export default function Guestbook() {
             setMessage("");
         } catch (error) {
             console.warn("Guestbook write refused:", error);
-            setSendError("Le message n'a pas pu être envoyé. Réessayez plus tard.");
+            setSendError(true);
         } finally {
             setLoading(false);
         }
@@ -72,13 +74,13 @@ export default function Guestbook() {
     return (
         <section id="guestbook" className="relative border-t border-line py-28">
             <div className="container mx-auto px-6">
-                <SectionHeading index="05" label="Livre d'or" title="Laissez un message" />
+                <SectionHeading index="05" label={t.guestbook.label} title={t.guestbook.title} />
 
                 <div className="grid gap-12 lg:grid-cols-12">
                     <form onSubmit={handleSubmit} className="space-y-5 lg:col-span-5">
                         <div>
                             <label htmlFor="name" className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-                                Nom
+                                {t.guestbook.name}
                             </label>
                             <input
                                 type="text"
@@ -86,13 +88,13 @@ export default function Guestbook() {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 className={field}
-                                placeholder="Votre nom"
+                                placeholder={t.guestbook.namePlaceholder}
                                 required
                             />
                         </div>
                         <div>
                             <label htmlFor="message" className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-                                Message
+                                {t.guestbook.message}
                             </label>
                             <textarea
                                 id="message"
@@ -100,7 +102,7 @@ export default function Guestbook() {
                                 onChange={(e) => setMessage(e.target.value)}
                                 rows={4}
                                 className={`${field} resize-none`}
-                                placeholder="Un petit mot..."
+                                placeholder={t.guestbook.messagePlaceholder}
                                 required
                             />
                         </div>
@@ -109,10 +111,10 @@ export default function Guestbook() {
                             disabled={loading}
                             className="group inline-flex w-full items-center justify-center gap-2 bg-primary px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent hover:text-background disabled:cursor-not-allowed disabled:opacity-50"
                         >
-                            {loading ? "Envoi..." : "Envoyer"}
+                            {loading ? t.guestbook.sending : t.guestbook.send}
                             {!loading && <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />}
                         </button>
-                        {sendError && <p className="font-mono text-xs text-accent">{sendError}</p>}
+                        {sendError && <p className="font-mono text-xs text-accent">{t.guestbook.sendError}</p>}
                     </form>
 
                     <div className="max-h-[440px] overflow-y-auto border-t border-line lg:col-span-7">
@@ -129,8 +131,8 @@ export default function Guestbook() {
                                         <span className="font-medium text-ink">{comment.name}</span>
                                         <span className="font-mono text-[11px] text-muted">
                                             {comment.createdAt?.seconds
-                                                ? new Date(comment.createdAt.seconds * 1000).toLocaleDateString("fr-FR")
-                                                : "À l'instant"}
+                                                ? new Date(comment.createdAt.seconds * 1000).toLocaleDateString(t.guestbook.dateLocale)
+                                                : t.guestbook.justNow}
                                         </span>
                                     </div>
                                     <p className="text-sm leading-relaxed text-muted">{comment.message}</p>
@@ -139,10 +141,10 @@ export default function Guestbook() {
                         </AnimatePresence>
 
                         {unavailable ? (
-                            <p className="py-10 font-mono text-sm text-muted">Le livre d&apos;or est momentanément indisponible.</p>
+                            <p className="py-10 font-mono text-sm text-muted">{t.guestbook.unavailable}</p>
                         ) : (
                             comments.length === 0 && (
-                                <p className="py-10 font-mono text-sm text-muted">Soyez le premier à laisser un message.</p>
+                                <p className="py-10 font-mono text-sm text-muted">{t.guestbook.empty}</p>
                             )
                         )}
                     </div>

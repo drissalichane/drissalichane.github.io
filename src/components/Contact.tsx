@@ -1,16 +1,17 @@
 "use client";
 
-import { portfolioData } from "@/data/portfolio";
 import { ArrowUpRight } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
+import { useLang } from "@/i18n";
 
 export default function Contact() {
-    const { personal } = portfolioData;
+    const { data, t } = useLang();
+    const { personal } = data;
 
     const links = [
         { label: "LinkedIn", value: "driss-alichane", href: personal.linkedin },
         { label: "GitHub", value: "drissalichane", href: personal.github },
-        { label: "Téléphone", value: personal.phone, href: `tel:${personal.phone.replace(/[^+\d]/g, "")}` },
+        { label: t.contact.phone, value: personal.phone, href: `tel:${personal.phone.replace(/[^+\d]/g, "")}` },
     ];
 
     return (
@@ -18,11 +19,9 @@ export default function Contact() {
             <div className="blueprint absolute inset-0 [mask-image:linear-gradient(to_top,black,transparent_70%)]" />
 
             <div className="container relative mx-auto px-6">
-                <SectionHeading index="06" label="Contact" title="Discutons de votre projet." />
+                <SectionHeading index="06" label={t.contact.label} title={t.contact.title} />
 
-                <p className="max-w-xl text-lg leading-relaxed text-muted">
-                    Un projet, une question ou une opportunité ? Écrivez-moi, je réponds rapidement.
-                </p>
+                <p className="max-w-xl text-lg leading-relaxed text-muted">{t.contact.text}</p>
 
                 <a
                     href={`mailto:${personal.email}`}

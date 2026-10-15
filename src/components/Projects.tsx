@@ -1,19 +1,20 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { portfolioData } from "@/data/portfolio";
 import { ArrowUpRight, Github } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
+import { useLang } from "@/i18n";
 
 export default function Projects() {
-    const { projects } = portfolioData;
+    const { data, t } = useLang();
+    const { projects } = data;
     const featured = projects.filter((p) => p.featured);
     const others = projects.filter((p) => !p.featured);
 
     return (
         <section id="projects" className="relative border-t border-line bg-surface/40 py-28">
             <div className="container mx-auto px-6">
-                <SectionHeading index="02" label="Réalisations" title="Projets" />
+                <SectionHeading index="02" label={t.projects.label} title={t.projects.title} />
 
                 <div className="border-t border-line">
                     {featured.map((project, index) => (
@@ -49,7 +50,7 @@ export default function Projects() {
 
                             <div className="flex flex-col justify-between gap-6 pl-5 md:col-span-5 md:border-l md:border-line md:pl-8">
                                 <div>
-                                    <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Stack</p>
+                                    <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">{t.projects.stack}</p>
                                     <div className="flex flex-wrap gap-2">
                                         {project.technologies.map((tech) => (
                                             <span
@@ -69,7 +70,7 @@ export default function Projects() {
                                         className="inline-flex w-fit items-center gap-2 border border-line px-4 py-2 font-mono text-xs uppercase tracking-[0.15em] text-muted transition-colors hover:border-primary hover:text-accent"
                                     >
                                         <Github size={14} />
-                                        Code source
+                                        {t.projects.source}
                                         <ArrowUpRight size={14} />
                                     </a>
                                 )}
@@ -78,7 +79,7 @@ export default function Projects() {
                     ))}
                 </div>
 
-                <p className="mb-6 mt-16 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Autres projets</p>
+                <p className="mb-6 mt-16 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">{t.projects.others}</p>
                 <div className="grid gap-px border border-line bg-line md:grid-cols-2">
                     {others.map((project) => (
                         <motion.article
@@ -96,7 +97,7 @@ export default function Projects() {
                                         href={project.repo}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        aria-label={`Code source : ${project.title}`}
+                                        aria-label={`${t.projects.source} : ${project.title}`}
                                         className="text-muted transition-colors hover:text-accent"
                                     >
                                         <ArrowUpRight size={18} />

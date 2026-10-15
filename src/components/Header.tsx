@@ -4,18 +4,21 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
-
-const navItems = [
-    { name: "Expérience", href: "#experience" },
-    { name: "Projets", href: "#projects" },
-    { name: "Compétences", href: "#skills" },
-    { name: "Formation", href: "#education" },
-    { name: "Livre d'or", href: "#guestbook" },
-];
+import { useLang } from "@/i18n";
+import { LanguageToggle, ThemeToggle } from "@/components/Toggles";
 
 export default function Header() {
+    const { t } = useLang();
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    const navItems = [
+        { name: t.nav.experience, href: "#experience" },
+        { name: t.nav.projects, href: "#projects" },
+        { name: t.nav.skills, href: "#skills" },
+        { name: t.nav.education, href: "#education" },
+        { name: t.nav.guestbook, href: "#guestbook" },
+    ];
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -37,10 +40,10 @@ export default function Header() {
                     Alichane<span className="-mx-2 text-primary">/</span>Driss
                 </a>
 
-                <nav className="hidden items-center gap-7 md:flex">
+                <nav className="hidden items-center gap-6 lg:flex">
                     {navItems.map((item, i) => (
                         <a
-                            key={item.name}
+                            key={item.href}
                             href={item.href}
                             className="group font-mono text-xs uppercase tracking-[0.15em] text-muted transition-colors hover:text-ink"
                         >
@@ -48,32 +51,38 @@ export default function Header() {
                             {item.name}
                         </a>
                     ))}
+                    <LanguageToggle className="ml-2" />
+                    <ThemeToggle />
                     <a
                         href="#contact"
                         className="border border-primary px-4 py-2 font-mono text-xs uppercase tracking-[0.15em] text-accent transition-colors hover:bg-primary hover:text-white"
                     >
-                        Contact
+                        {t.nav.contact}
                     </a>
                 </nav>
 
-                <button
-                    className="text-muted transition-colors hover:text-ink md:hidden"
-                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                    aria-label={mobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
-                >
-                    {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-                </button>
+                <div className="flex items-center gap-4 lg:hidden">
+                    <LanguageToggle />
+                    <ThemeToggle />
+                    <button
+                        className="text-muted transition-colors hover:text-ink"
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        aria-label={mobileMenuOpen ? t.a11y.closeMenu : t.a11y.openMenu}
+                    >
+                        {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+                    </button>
+                </div>
             </div>
 
             {mobileMenuOpen && (
                 <motion.nav
                     initial={{ opacity: 0, y: -8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="border-t border-line bg-background/95 px-6 py-4 backdrop-blur-xl md:hidden"
+                    className="border-t border-line bg-background/95 px-6 py-4 backdrop-blur-xl lg:hidden"
                 >
-                    {[...navItems, { name: "Contact", href: "#contact" }].map((item, i) => (
+                    {[...navItems, { name: t.nav.contact, href: "#contact" }].map((item, i) => (
                         <a
-                            key={item.name}
+                            key={item.href}
                             href={item.href}
                             onClick={() => setMobileMenuOpen(false)}
                             className="flex items-center gap-4 border-b border-line py-4 font-mono text-sm uppercase tracking-[0.15em] text-muted last:border-b-0 hover:text-ink"
