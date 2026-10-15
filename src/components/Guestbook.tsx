@@ -7,7 +7,27 @@ import { ArrowRight, Check, Lock } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import { useLang } from "@/i18n";
 
-// Messages are written to Firestore and never read back by the site: only the owner sees them, in the console.
+// Each message is emailed to the owner through Web3Forms and kept in Firestore as a backup copy.
+// The site never reads them back. The Web3Forms key is public by design: it only lets this form send to that inbox.
+const WEB3FORMS_KEY = "144a882f-b9e4-4ccc-a7d5-9c0b4833839c";
+
+async function sendByEmail(name: string, email: string, message: string) {
+    const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+            access_key: WEB3FORMS_KEY,
+            subject: `Portfolio : message de ${name}`,
+            from_name: "Portfolio drissalichane.github.io",
+            name,
+            ...(email && { email }),
+            message,
+        }),
+    });
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok || !body.success) throw new Error(body.message || `HTTP ${res.status}`);
+}
+
 export default function Guestbook() {
     const { t } = useLang();
     const [name, setName] = useState("");
@@ -23,23 +43,24 @@ export default function Guestbook() {
 
         setLoading(true);
         setSendError(false);
-        try {
-            await addDoc(collection(db, "guestbook"), {
-                name: name.trim(),
-                email: email.trim(),
-                message: message.trim(),
-                createdAt: serverTimestamp(),
-            });
+        const entry = { name: name.trim(), email: email.trim(), message: message.trim() };
+        // Either channel reaching the owner counts as sent; only a failure of both is shown to the visitor.
+        const [mail, store] = await Promise.allSettled([
+            sendByEmail(entry.name, entry.email, entry.message),
+            addDoc(collection(db, "guestbook"), { ...entry, createdAt: serverTimestamp() }),
+        ]);
+        if (mail.status === "rejected") console.warn("Email delivery failed:", mail.reason);
+        if (store.status === "rejected") console.warn("Backup copy refused:", store.reason);
+
+        if (mail.status === "fulfilled" || store.status === "fulfilled") {
             setName("");
             setEmail("");
             setMessage("");
             setSent(true);
-        } catch (error) {
-            console.warn("Message refused:", error);
+        } else {
             setSendError(true);
-        } finally {
-            setLoading(false);
         }
+        setLoading(false);
     };
 
     const field =
