@@ -9,7 +9,7 @@ export const portfolioData = {
     location: "Casablanca | Mobilité : Nationale",
     linkedin: "https://linkedin.com/in/driss-alichane",
     github: "https://github.com/drissalichane",
-    bio: "Je conçois des applications web de bout en bout : interfaces Angular et React, API ASP.NET Core et Spring Boot, bases de données SQL. Actuellement chez Akkodis, je développe une plateforme d’agents IA qui automatise la migration d’applications .NET legacy, de l’analyse du dépôt jusqu’à la pull request.",
+    bio: "Je conçois des applications web de bout en bout : interfaces Angular et React, API ASP.NET Core et Spring Boot, bases de données SQL. Chez Akkodis, j’ai développé une plateforme d’agents IA qui automatise la migration d’applications .NET legacy, de l’analyse du dépôt jusqu’à la pull request.",
   },
   education: [
     {
@@ -36,7 +36,7 @@ export const portfolioData = {
       company: "Akkodis",
       location: "Casablanca",
       role: "Ingénieur stagiaire Full-Stack .NET & IA",
-      period: "Mars 2026 - À ce jour",
+      period: "Mars 2026 - Septembre 2026",
       description: "Plateforme d’agents IA qui automatise la migration d’applications .NET legacy vers les versions récentes, de l’analyse du dépôt jusqu’à la pull request.",
       tasks: [
         "Développement du backend (ASP.NET Core, EF Core) : outils d’édition de code pour les agents, gestion Git et création automatique des pull requests.",

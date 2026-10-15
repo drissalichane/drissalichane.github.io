@@ -6,13 +6,12 @@ import { ArrowRight, Github, Linkedin } from "lucide-react";
 import Corners from "@/components/Corners";
 
 export default function Hero() {
-    const { personal, experience } = portfolioData;
+    const { personal } = portfolioData;
     const [lastName, firstName] = personal.name.split(" ");
-    const current = experience[0];
 
     const spec = [
         { key: "Rôle", value: personal.title },
-        { key: "Poste", value: `${current.company}, ${current.location}` },
+        { key: "Statut", value: "Disponible immédiatement" },
         { key: "Base", value: personal.location },
         { key: "Stack", value: personal.stack.join(" / ") },
     ];
