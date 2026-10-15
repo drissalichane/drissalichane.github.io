@@ -23,7 +23,7 @@ const HOLD_MS = 2600;
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// Hero terminal: types `whoami` once, then cycles through one command per stack, forever.
+// Hero terminal: cycles `whoami`, then one command per stack, forever.
 export default function HeroTerminal() {
     const { t } = useLang();
     const reduceMotion = useReducedMotion();
@@ -35,7 +35,8 @@ export default function HeroTerminal() {
         let cancelled = false;
         (async () => {
             for (let i = 0; !cancelled; i++) {
-                const scene = i === 0 ? intro : STACKS[(i - 1) % STACKS.length];
+                const step = i % (STACKS.length + 1);
+                const scene = step === 0 ? intro : STACKS[step - 1];
                 for (let c = 0; c <= scene.cmd.length && !cancelled; c++) {
                     setView({ cmd: scene.cmd.slice(0, c), out: [] });
                     await wait(TYPE_MS);
@@ -45,7 +46,7 @@ export default function HeroTerminal() {
                     setView({ cmd: scene.cmd, out: scene.out.slice(0, l) });
                     await wait(LINE_MS);
                 }
-                await wait(i === 0 ? HOLD_INTRO_MS : HOLD_MS);
+                await wait(step === 0 ? HOLD_INTRO_MS : HOLD_MS);
             }
         })();
         return () => {
