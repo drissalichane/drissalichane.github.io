@@ -1,43 +1,51 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #0a0a0a;
-  --color-foreground: #ededed;
-  --color-primary: #3b82f6;
-  --color-secondary: #10b981;
-  --color-accent: #8b5cf6;
+  --color-background: #05070d;
+  --color-surface: #0a1020;
+  --color-line: #18233d;
+  --color-ink: #e6edf7;
+  --color-muted: #8a96ad;
+  --color-primary: #2f7cf6;
+  --color-accent: #6aa8ff;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-grotesk), var(--font-inter), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+/* Blueprint grid used behind the hero and the contact section. */
+@utility blueprint {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-primary) 12%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-primary) 12%, transparent) 1px, transparent 1px);
+  background-size: 56px 56px;
 }
 
 @layer base {
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-ink font-sans antialiased;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-primary) 45%, transparent);
+    color: #fff;
   }
 }
 
-@layer utilities {
-  .glass {
-    @apply bg-white/5 backdrop-blur-md border border-white/10;
-  }
-  
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-purple-500;
-  }
-}
-
-/* Custom Scrollbar */
+/* Square scrollbar, in the palette. */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: var(--color-background);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 4px;
+  background: var(--color-line);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--color-primary);
 }

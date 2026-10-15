@@ -2,48 +2,42 @@
 
 import { motion } from "framer-motion";
 import { portfolioData } from "@/data/portfolio";
-import { GraduationCap } from "lucide-react";
+import SectionHeading from "@/components/SectionHeading";
 
 export default function Education() {
-    const { education } = portfolioData;
+    const { education, certifications } = portfolioData;
 
     return (
-        <section id="education" className="py-20 bg-zinc-900/30">
+        <section id="education" className="relative border-t border-line bg-surface/40 py-28">
             <div className="container mx-auto px-6">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="mb-16"
-                >
-                    <div className="flex items-center gap-4 mb-4">
-                        <div className="w-12 h-[1px] bg-green-500"></div>
-                        <h2 className="text-green-400 font-medium tracking-wide text-sm uppercase">Parcours</h2>
-                    </div>
-                    <h3 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500">
-                        Formation Académique
-                    </h3>
-                </motion.div>
+                <SectionHeading index="04" label="Parcours" title="Formation" />
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {education.map((edu, index) => (
+                <div className="border-t border-line">
+                    {education.map((edu) => (
                         <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
+                            key={edu.degree}
+                            initial={{ opacity: 0, y: 12 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
-                            className="bg-black border border-zinc-800 rounded-2xl p-8 hover:border-green-500/30 transition-all duration-300 relative overflow-hidden group"
+                            transition={{ duration: 0.4 }}
+                            className="grid gap-2 border-b border-line py-7 md:grid-cols-12 md:items-baseline md:gap-8"
                         >
-                            <div className="icon mb-6 p-3 w-fit rounded-lg bg-zinc-900 border border-zinc-800 text-green-400 group-hover:bg-green-500/10 transition-colors">
-                                <GraduationCap size={24} />
-                            </div>
-
-                            <span className="block text-sm text-green-400 font-mono mb-2">{edu.period}</span>
-                            <h4 className="text-lg font-bold text-white mb-2">{edu.degree}</h4>
-                            <p className="text-gray-400 text-sm">{edu.institution}</p>
+                            <span className="font-mono text-sm text-accent md:col-span-2">{edu.period}</span>
+                            <h3 className="font-display text-lg font-semibold text-ink md:col-span-6">{edu.degree}</h3>
+                            <p className="text-sm text-muted md:col-span-4 md:text-right">{edu.institution}</p>
                         </motion.div>
                     ))}
+                </div>
+
+                <div className="mt-12">
+                    <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Certifications</p>
+                    <div className="flex flex-wrap gap-2">
+                        {certifications.map((cert) => (
+                            <span key={cert} className="border border-line px-3 py-1.5 text-sm text-ink/85">
+                                {cert}
+                            </span>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>

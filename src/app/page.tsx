@@ -9,11 +9,11 @@ import Contact from "@/components/Contact";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <main className="min-h-screen overflow-x-hidden bg-background text-ink">
       <Header />
       <Hero />
-      <Projects />
       <Experience />
+      <Projects />
       <Skills />
       <Education />
       <Guestbook />

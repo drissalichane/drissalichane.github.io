@@ -2,88 +2,64 @@
 
 import { motion } from "framer-motion";
 import { portfolioData } from "@/data/portfolio";
-import { Briefcase, Calendar, MapPin } from "lucide-react";
+import { cn } from "@/lib/utils";
+import SectionHeading from "@/components/SectionHeading";
 
 export default function Experience() {
     const { experience } = portfolioData;
 
     return (
-        <section id="experience" className="py-20 bg-black/20">
+        <section id="experience" className="relative border-t border-line py-28">
             <div className="container mx-auto px-6">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="mb-16"
-                >
-                    <div className="flex items-center gap-4 mb-4">
-                        <div className="w-12 h-[1px] bg-purple-500"></div>
-                        <h2 className="text-purple-400 font-medium tracking-wide text-sm uppercase">Carrière</h2>
-                    </div>
-                    <h3 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500">
-                        Expériences Professionnelles
-                    </h3>
-                </motion.div>
+                <SectionHeading index="01" label="Carrière" title="Expériences professionnelles" />
 
-                <div className="max-w-4xl mx-auto space-y-12">
+                <div>
                     {experience.map((exp, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
-                            className="relative pl-8 md:pl-0"
+                        <motion.article
+                            key={exp.company}
+                            initial={{ opacity: 0, y: 16 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-60px" }}
+                            transition={{ duration: 0.5 }}
+                            className="grid gap-4 md:grid-cols-[220px_1fr] md:gap-12"
                         >
-                            {/* Timeline Line */}
-                            <div className="hidden md:block absolute left-[50%] top-0 bottom-0 w-[1px] bg-white/10 transform -translate-x-1/2" />
-
-                            {/* Timeline Dot */}
-                            <div className="hidden md:block absolute left-[50%] top-0 w-4 h-4 rounded-full bg-purple-500 transform -translate-x-1/2 border-4 border-black" />
-
-                            <div className={`md:flex items-start justify-between ${index % 2 === 0 ? "md:flex-row-reverse" : ""}`}>
-                                <div className="md:w-[45%] mb-4 md:mb-0">
-                                    <div className={`p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-purple-500/30 transition-colors ${index % 2 === 0 ? "md:text-left" : "md:text-right"}`}>
-                                        <div className={`flex flex-col gap-2 mb-4 ${index % 2 === 0 ? "md:items-start" : "md:items-end"}`}>
-                                            <h4 className="text-xl font-bold text-white">{exp.role}</h4>
-                                            <h5 className="text-lg text-purple-400 font-medium">{exp.company}</h5>
-                                            <div className="flex items-center gap-4 text-sm text-gray-500">
-                                                <span className="flex items-center gap-1">
-                                                    <Calendar size={14} />
-                                                    {exp.period}
-                                                </span>
-                                                <span className="flex items-center gap-1">
-                                                    <MapPin size={14} />
-                                                    {exp.location}
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <p className="text-gray-400 mb-6 text-sm leading-relaxed">
-                                            {exp.description}
-                                        </p>
-
-                                        <ul className={`mb-6 space-y-2 text-sm text-gray-400 ${index % 2 === 0 ? "" : "md:flex md:flex-col md:items-end"}`}>
-                                            {exp.tasks.map((task, i) => (
-                                                <li key={i} className="flex items-start gap-2">
-                                                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-purple-500 flex-shrink-0" />
-                                                    <span>{task}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-
-                                        <div className={`flex flex-wrap gap-2 ${index % 2 === 0 ? "" : "md:justify-end"}`}>
-                                            {exp.technologies.slice(0, 6).map((tech) => (
-                                                <span key={tech} className="px-2 py-1 text-xs rounded bg-purple-500/10 text-purple-300 border border-purple-500/20">
-                                                    {tech}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="md:w-[45%]" />
+                            <div className="font-mono text-xs uppercase tracking-[0.15em] text-muted md:pt-1.5 md:text-right">
+                                {exp.period.split(" - ").map((part) => (
+                                    <p key={part} className="text-accent">{part}</p>
+                                ))}
+                                <p className="mt-2">{exp.location}</p>
                             </div>
-                        </motion.div>
+
+                            <div className="relative border-l border-line pb-16 pl-8">
+                                <span
+                                    className={cn(
+                                        "absolute -left-[5px] top-2 h-2.5 w-2.5",
+                                        index === 0
+                                            ? "bg-primary shadow-[0_0_0_4px_rgba(47,124,246,0.2)]"
+                                            : "border border-accent bg-background"
+                                    )}
+                                />
+                                <h3 className="font-display text-2xl font-semibold text-ink">{exp.role}</h3>
+                                <p className="mt-1 font-medium text-accent">{exp.company}</p>
+
+                                {exp.description && (
+                                    <p className="mt-4 max-w-3xl leading-relaxed text-muted">{exp.description}</p>
+                                )}
+
+                                <ul className="mt-5 max-w-3xl space-y-2.5">
+                                    {exp.tasks.map((task) => (
+                                        <li key={task} className="flex gap-3 text-sm leading-relaxed text-ink/85">
+                                            <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-primary" />
+                                            <span>{task}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <p className="mt-6 font-mono text-xs leading-6 text-muted">
+                                    {exp.technologies.join("  /  ")}
+                                </p>
+                            </div>
+                        </motion.article>
                     ))}
                 </div>
             </div>
