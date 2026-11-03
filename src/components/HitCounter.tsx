@@ -7,10 +7,12 @@ import { useLang } from "@/i18n";
 import { hasPlayed, subscribe } from "@/lib/sfx";
 
 // Bottom-left HUD: a round hit counter (hidden until the first target is hit, resets on reload)
-// and the mute button (shown once a game sound has played).
+// and the mute button (shown once a game sound has played). Both fade out once the visitor has
+// scrolled past the hero, where the game is, and come back when they return.
 export default function HitCounter() {
     const { t } = useLang();
     const [hits, setHits] = useState(0);
+    const [inHero, setInHero] = useState(true);
     const soundUsed = useSyncExternalStore(subscribe, hasPlayed, () => false);
 
     useEffect(() => {
@@ -19,10 +21,29 @@ export default function HitCounter() {
         return () => window.removeEventListener(HIT_EVENT, onHit);
     }, []);
 
+    useEffect(() => {
+        const hero = document.getElementById("hero");
+        if (!hero) return;
+        // "In the hero" while it still fills at least half of the screen.
+        const check = () => setInHero(hero.getBoundingClientRect().bottom > window.innerHeight / 2);
+        check();
+        window.addEventListener("scroll", check, { passive: true });
+        window.addEventListener("resize", check);
+        return () => {
+            window.removeEventListener("scroll", check);
+            window.removeEventListener("resize", check);
+        };
+    }, []);
+
     if (!hits && !soundUsed) return null;
 
     return (
-        <div className="fixed bottom-4 left-4 z-40 flex items-center gap-2">
+        <div
+            inert={!inHero}
+            className={`fixed bottom-4 left-4 z-40 flex items-center gap-2 transition duration-300 ${
+                inHero ? "opacity-100" : "pointer-events-none translate-y-2 opacity-0"
+            }`}
+        >
             {hits > 0 && (
                 <div className="hit-counter flex h-14 w-14 flex-col items-center justify-center rounded-full border border-primary/60 bg-surface/80 font-mono backdrop-blur-sm">
                     <span key={hits} className="hit-count text-base leading-none text-ink">
