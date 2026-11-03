@@ -18,7 +18,6 @@ A walkthrough of how every part of [drissalichane.github.io](https://drissalicha
 12. [Contact form: email + database backup](#12-contact-form-email--database-backup)
 13. [Accessibility and performance principles](#13-accessibility-and-performance-principles)
 14. [Build, deployment and testing](#14-build-deployment-and-testing)
-15. [Interview cheat sheet](#15-interview-cheat-sheet)
 
 ---
 
@@ -171,37 +170,3 @@ These rules applied to every feature:
 - **Deployment:** [.github/workflows/nextjs.yml](../.github/workflows/nextjs.yml) runs on every push to `main`: install with `npm ci`, `next build` with the static-site settings from `actions/configure-pages`, upload the output, deploy to GitHub Pages.
 - **Checks before each change:** `npm run lint` (ESLint with the Next.js config, including the React hooks rules) and `npm run build` (type-check + production build).
 - **Visual and behaviour checks:** the interactive features were verified by driving a headless browser (Microsoft Edge) over the Chrome DevTools Protocol from small Node scripts. These scripts aren't part of the repo. They moved the mouse, clicked targets and the name, and took screenshots in both themes and at desktop and phone sizes. They asserted things like "no target overlaps content", "the trail is hidden while aiming", "the HP bar drops one segment per shot and refills", and "muting stops all sound". For sound, the scripts counted the oscillators the page created, since a headless browser has no speakers.
-
-## 15. Interview cheat sheet
-
-Short answers to the questions a recruiter or interviewer is likely to ask.
-
-**How did you make the custom cursor smooth?**
-I don't use React state for it. A pointer listener stores the coordinates in variables, and one `requestAnimationFrame` loop writes `translate3d` transforms directly to the elements through refs, so React never re-renders while the mouse moves and the browser only does compositing.
-
-**How does the "low fps" trail work?**
-The cursor itself updates every frame, but the trail copies only sample the mouse position 20 times per second into a small buffer. Because they update less often than the screen refreshes, they jump in steps, which reads as low fps. Copies that have caught up are hidden.
-
-**How do the targets avoid covering your text?**
-Content blocks are marked with a data attribute. Spawning uses rejection sampling: random positions are tried and the first one whose box doesn't intersect any marked element's bounding rect (plus a margin), the header, or another target is kept. If there's no room, fewer targets appear.
-
-**How do the parts of the game communicate?**
-Through small, explicit channels instead of a global store: a `target-hit` DOM event for the counter, data attributes (`data-cursor-lock`, `data-cursor-target`) for the cursor, and a subscribe/emit module for the sound's mute state, read via `useSyncExternalStore`.
-
-**Where do the sounds come from?**
-They're synthesized with the Web Audio API: oscillators and filtered white noise shaped by gain envelopes. There are no audio files to download. The audio context is created on the first click, which satisfies browser autoplay policies.
-
-**How do you avoid the theme flashing on load?**
-A tiny inline script in `<head>` sets `data-theme` before the first paint from `localStorage` or the system preference. All colours are CSS variables, so the light theme is just a different set of variable values.
-
-**How does the typewriter avoid layout jumps?**
-The full text is rendered from the start; the not-yet-typed part is `visibility: hidden`, so it keeps its space. Timing is computed from elapsed time, not per-character timers, so it stays accurate even if frames drop.
-
-**How did you handle accessibility with all these effects?**
-Every animation respects `prefers-reduced-motion`; decorative elements are `aria-hidden` and not focusable; animated text has a static screen-reader copy; hover-only effects only run on devices that can hover; text fields keep the native caret.
-
-**How is the contact form secured without a backend?**
-Firestore security rules allow only creating a document with exactly the expected fields, types and length limits and a server timestamp, with no reads, edits or deletes. Email delivery runs in parallel through Web3Forms, and `Promise.allSettled` means one channel failing doesn't lose the message.
-
-**How is it deployed?**
-It's a static Next.js export. A GitHub Actions workflow builds it on every push to `main` and deploys it to GitHub Pages.
