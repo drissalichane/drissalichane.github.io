@@ -56,7 +56,7 @@ src/
     HeroTerminal.tsx  typing terminal in the profile card
     NamePlate.tsx     enemy HUD tag + HP bar on the name
     HeroTargets.tsx   floating targets, hit effects
-    HitCounter.tsx    bottom-left HUD (hit count + mute button)
+    HitCounter.tsx    bottom-right HUD (hit count + mute button)
     SoundToggle.tsx   mute button
     Cursor.tsx        crosshair cursor
     Experience.tsx    typewriter experience timeline

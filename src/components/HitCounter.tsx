@@ -6,7 +6,7 @@ import SoundToggle from "@/components/SoundToggle";
 import { useLang } from "@/i18n";
 import { hasPlayed, subscribe } from "@/lib/sfx";
 
-// Bottom-left HUD: a round hit counter (hidden until the first target is hit, resets on reload)
+// Bottom-right HUD: a round hit counter (hidden until the first target is hit, resets on reload)
 // and the mute button (shown once a game sound has played). Both fade out once the visitor has
 // scrolled past the hero, where the game is, and come back when they return.
 export default function HitCounter() {
@@ -40,7 +40,7 @@ export default function HitCounter() {
     return (
         <div
             inert={!inHero}
-            className={`fixed bottom-4 left-4 z-40 flex items-center gap-2 transition duration-300 ${
+            className={`fixed bottom-4 right-4 z-40 flex items-center gap-2 transition duration-300 ${
                 inHero ? "opacity-100" : "pointer-events-none translate-y-2 opacity-0"
             }`}
         >
