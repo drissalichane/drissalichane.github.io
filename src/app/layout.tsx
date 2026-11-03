@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
+import Cursor from "@/components/Cursor";
 import { LanguageProvider } from "@/i18n";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -32,6 +33,7 @@ export default function RootLayout({
       </head>
       <body>
         <LanguageProvider>{children}</LanguageProvider>
+        <Cursor />
         <Analytics />
       </body>
     </html>

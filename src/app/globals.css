@@ -77,3 +77,312 @@
 .type-caret {
   animation: caret-blink 0.9s steps(1) infinite;
 }
+
+/* Custom crosshair cursor (src/components/Cursor.tsx). The class is only added on mouse devices
+   once the component has mounted, so the system cursor stays until then. */
+html.custom-cursor,
+html.custom-cursor * {
+  cursor: none !important;
+}
+
+html.custom-cursor
+  :is(input:not([type="checkbox"], [type="radio"], [type="button"], [type="submit"], [type="range"], [type="color"]), textarea, [contenteditable="true"]) {
+  cursor: text !important;
+}
+
+.cursor-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  transition: opacity 150ms ease-out;
+}
+
+.cursor-layer[data-hidden] {
+  opacity: 0;
+}
+
+.cursor-cross,
+.cursor-ghost,
+.cursor-tick {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+}
+
+.cursor-cross {
+  filter: drop-shadow(0 0 3px color-mix(in oklab, var(--color-primary) 70%, transparent));
+}
+
+.cursor-ghost {
+  opacity: 0;
+}
+
+/* Arms of the crosshair: 7px long, 2px thick, with a 4px gap around the center. */
+.cursor-arm {
+  position: absolute;
+  background: var(--color-primary);
+  transition:
+    transform 110ms ease-out,
+    opacity 150ms ease-out;
+}
+
+.cursor-arm[data-dir="n"],
+.cursor-arm[data-dir="s"] {
+  left: -1px;
+  width: 2px;
+  height: 7px;
+}
+
+.cursor-arm[data-dir="w"],
+.cursor-arm[data-dir="e"] {
+  top: -1px;
+  width: 7px;
+  height: 2px;
+}
+
+.cursor-arm[data-dir="n"] { top: -11px; }
+.cursor-arm[data-dir="s"] { top: 4px; }
+.cursor-arm[data-dir="w"] { left: -11px; }
+.cursor-arm[data-dir="e"] { left: 4px; }
+
+.cursor-ghost .cursor-arm {
+  background: var(--color-accent);
+  transition: none;
+}
+
+.cursor-dot {
+  position: absolute;
+  left: -1.5px;
+  top: -1.5px;
+  width: 3px;
+  height: 3px;
+  background: var(--color-accent);
+}
+
+/* Recoil: the arms kick outward while the button is held. */
+.cursor-layer[data-firing] .cursor-cross .cursor-arm[data-dir="n"] { transform: translateY(-4px); }
+.cursor-layer[data-firing] .cursor-cross .cursor-arm[data-dir="s"] { transform: translateY(4px); }
+.cursor-layer[data-firing] .cursor-cross .cursor-arm[data-dir="w"] { transform: translateX(-4px); }
+.cursor-layer[data-firing] .cursor-cross .cursor-arm[data-dir="e"] { transform: translateX(4px); }
+
+/* Locked on a link or button: the brackets frame it, so the arms step back and the dot becomes a
+   ringed point that stays visible on any fill, including the blue buttons. */
+.cursor-layer[data-locked] .cursor-cross .cursor-arm {
+  opacity: 0;
+}
+
+.cursor-dot {
+  transition: transform 150ms ease-out;
+}
+
+.cursor-layer[data-locked] .cursor-dot {
+  background: var(--color-ink);
+  box-shadow: 0 0 0 1px var(--color-background);
+  transform: scale(1.6);
+}
+
+/* Corner ticks, same style as the Corners component. */
+.cursor-tick {
+  width: 8px;
+  height: 8px;
+  border: 0 solid var(--color-primary);
+}
+
+.cursor-tick[data-corner="tl"] { border-left-width: 2px; border-top-width: 2px; }
+.cursor-tick[data-corner="tr"] { border-right-width: 2px; border-top-width: 2px; }
+.cursor-tick[data-corner="bl"] { border-left-width: 2px; border-bottom-width: 2px; }
+.cursor-tick[data-corner="br"] { border-right-width: 2px; border-bottom-width: 2px; }
+
+/* Each ghost echoes the whole reticle: arms plus a fixed bracket box the size of the idle one. */
+.cursor-ghost-tick {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 0 solid var(--color-accent);
+}
+
+.cursor-ghost-tick[data-corner="tl"] { left: -13px; top: -13px; border-left-width: 2px; border-top-width: 2px; }
+.cursor-ghost-tick[data-corner="tr"] { left: 5px; top: -13px; border-right-width: 2px; border-top-width: 2px; }
+.cursor-ghost-tick[data-corner="bl"] { left: -13px; top: 5px; border-left-width: 2px; border-bottom-width: 2px; }
+.cursor-ghost-tick[data-corner="br"] { left: 5px; top: 5px; border-right-width: 2px; border-bottom-width: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-dot,
+  .cursor-arm,
+  .cursor-layer {
+    transition: none;
+  }
+}
+
+/* Name plate (src/components/NamePlate.tsx): the name flinches and the HP bar flashes on each shot. */
+@keyframes name-flinch {
+  25% { transform: translate(2px, -1px); }
+  50% { transform: translate(-2px, 1px); }
+  75% { transform: translate(1px, 1px); }
+}
+
+.name-flinch {
+  animation: name-flinch 160ms linear;
+}
+
+@keyframes hp-flash {
+  from {
+    filter: brightness(2.5);
+  }
+}
+
+.hp-flash {
+  animation: hp-flash 220ms ease-out;
+}
+
+@keyframes medkit-in {
+  from {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.medkit-in {
+  display: inline-block;
+  animation: medkit-in 200ms ease-out;
+}
+
+/* Practice targets in the hero (src/components/HeroTargets.tsx). */
+@keyframes target-in {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes target-bob {
+  from {
+    transform: translateY(-6px) rotate(-6deg);
+  }
+  to {
+    transform: translateY(6px) rotate(6deg);
+  }
+}
+
+.hero-target {
+  animation: target-in 250ms ease-out both;
+}
+
+.hero-target svg {
+  animation: target-bob 2s ease-in-out var(--phase, 0s) infinite alternate;
+  transition: filter 150ms ease-out;
+}
+
+.hero-target:hover svg {
+  filter: drop-shadow(0 0 6px color-mix(in oklab, var(--color-primary) 80%, transparent));
+}
+
+/* Hit marker: four short diagonal strokes around the impact, like in shooters. */
+.hit-marker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: hit-marker 350ms ease-out forwards;
+}
+
+.hit-marker i {
+  position: absolute;
+  left: -5px;
+  top: -1px;
+  width: 10px;
+  height: 2px;
+  background: var(--color-ink);
+}
+
+.hit-marker i:nth-child(1) { transform: rotate(45deg) translateX(-10px); }
+.hit-marker i:nth-child(2) { transform: rotate(45deg) translateX(10px); }
+.hit-marker i:nth-child(3) { transform: rotate(-45deg) translateX(-10px); }
+.hit-marker i:nth-child(4) { transform: rotate(-45deg) translateX(10px); }
+
+@keyframes hit-marker {
+  from {
+    transform: scale(1.5);
+  }
+  70% {
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+.hit-shard {
+  position: absolute;
+  left: -3px;
+  top: -3px;
+  width: 6px;
+  height: 6px;
+  background: var(--color-primary);
+  animation: hit-shard 550ms ease-out forwards;
+}
+
+@keyframes hit-shard {
+  to {
+    transform: translate(var(--dx), var(--dy)) rotate(180deg) scale(0.3);
+    opacity: 0;
+  }
+}
+
+.hit-plus {
+  position: absolute;
+  left: 16px;
+  top: -26px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-accent);
+  animation: hit-plus 700ms ease-out forwards;
+}
+
+@keyframes hit-plus {
+  from {
+    transform: translateY(6px);
+    opacity: 0;
+  }
+  20% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-14px);
+    opacity: 0;
+  }
+}
+
+/* Hit counter (src/components/HitCounter.tsx). */
+.hit-counter {
+  animation: target-in 250ms ease-out both;
+}
+
+.hit-count {
+  animation: count-pop 200ms ease-out;
+}
+
+@keyframes count-pop {
+  from {
+    transform: scale(1.5);
+    color: var(--color-accent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-target,
+  .hero-target svg,
+  .hit-counter,
+  .hit-count,
+  .name-flinch,
+  .medkit-in {
+    animation: none;
+  }
+
+  .hit-shard {
+    display: none;
+  }
+}

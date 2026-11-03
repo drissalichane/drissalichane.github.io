@@ -6,6 +6,9 @@ import Corners from "@/components/Corners";
 import { useLang } from "@/i18n";
 import { LanguageToggle } from "@/components/Toggles";
 import HeroTerminal from "@/components/HeroTerminal";
+import HeroTargets from "@/components/HeroTargets";
+import HitCounter from "@/components/HitCounter";
+import NamePlate from "@/components/NamePlate";
 
 export default function Hero() {
     const { data, t } = useLang();
@@ -31,20 +34,22 @@ export default function Hero() {
                     transition={{ duration: 0.6 }}
                     className="lg:col-span-7"
                 >
-                    <p className="mb-8 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-accent">
+                    <p data-target-avoid="" className="mb-8 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-accent">
                         <span className="h-2 w-2 animate-pulse bg-primary" />
                         {personal.status}
                     </p>
 
-                    <h1 className="font-display text-6xl font-bold leading-[0.9] tracking-tight sm:text-7xl xl:text-8xl">
-                        <span className="block text-ink">{firstName}</span>
-                        <span className="block text-transparent [-webkit-text-stroke:1.5px_var(--color-accent)]">{lastName}</span>
-                    </h1>
+                    <NamePlate name={personal.name} tag="full-stack" medkit={t.hero.medkit}>
+                        <h1 className="font-display text-6xl font-bold leading-[0.9] tracking-tight sm:text-7xl xl:text-8xl">
+                            <span className="block text-ink">{firstName}</span>
+                            <span className="block text-transparent [-webkit-text-stroke:1.5px_var(--color-accent)]">{lastName}</span>
+                        </h1>
+                    </NamePlate>
 
-                    <p className="mt-8 font-display text-xl text-ink sm:text-2xl">{personal.title}</p>
-                    <p className="mt-4 max-w-xl leading-relaxed text-muted">{personal.bio}</p>
+                    <p data-target-avoid="" className="mt-8 font-display text-xl text-ink sm:text-2xl">{personal.title}</p>
+                    <p data-target-avoid="" className="mt-4 max-w-xl leading-relaxed text-muted">{personal.bio}</p>
 
-                    <div className="mt-10 flex flex-wrap items-center gap-3">
+                    <div data-target-avoid="" className="mt-10 flex flex-wrap items-center gap-3">
                         <a
                             href="#experience"
                             className="group inline-flex items-center gap-2 bg-primary px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent hover:text-background"
@@ -84,6 +89,7 @@ export default function Hero() {
                     initial={{ opacity: 0, y: 24 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.15 }}
+                    data-target-avoid=""
                     className="relative border border-line bg-surface/70 backdrop-blur-sm lg:col-span-5"
                 >
                     <Corners />
@@ -107,11 +113,15 @@ export default function Hero() {
 
             <a
                 href="#experience"
+                data-target-avoid=""
                 className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 font-mono text-[10px] uppercase tracking-[0.3em] text-muted transition-colors hover:text-accent lg:flex"
             >
                 {t.hero.scroll}
                 <span className="h-10 w-px bg-gradient-to-b from-accent to-transparent" />
             </a>
+
+            <HeroTargets />
+            <HitCounter />
         </section>
     );
 }
